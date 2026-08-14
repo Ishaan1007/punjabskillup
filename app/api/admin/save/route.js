@@ -7,6 +7,10 @@ export async function POST(req) {
     return NextResponse.json({ ok: false, error: "Missing data." }, { status: 400 });
   }
 
+  if (!supabaseAdmin) {
+    return NextResponse.json({ ok: false, error: "Supabase is not configured. Add PROJECT env vars in Vercel." }, { status: 500 });
+  }
+
   const { error } = await supabaseAdmin
     .from("course_data")
     .update({ data: body.data, updated_at: new Date().toISOString() })
